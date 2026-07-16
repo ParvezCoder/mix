@@ -1,0 +1,242 @@
+{
+  "name": "Email sender (sheet1) parvezbhutto10@gmail.com",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        176,
+        144
+      ],
+      "id": "b837831d-0b4b-4fb2-841d-6eda929c6996",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "b921a255-8e85-4fd1-a69b-d74893b1ff40",
+      "name": "Split In Batches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [
+        528,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "={{ $json.subject_line }}",
+        "message": "=\n<h2 style=\"font-size:22px; margin:0; color:#111827;\">\nHi {{ $json.name }} 🩺\n</h2>\n{{ $json.number }},<br>\n{{ $json.website }},\n<br>\n{{ $json.email_body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        864,
+        144
+      ],
+      "id": "2791add7-6e40-4d3f-aa12-575877d92f0e",
+      "name": "Send a message",
+      "webhookId": "030d0a0a-73aa-4ced-ac38-d45a889ecc7a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "A5qivqxnVm2ir1pS",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9f40bfe3-f4df-4c77-825a-25c56e60314c",
+              "name": "subject 1,2,3",
+              "value": "💡 Save time and AI to answer patient inquiries 24/7 🤖\n\n⏱️ Never miss a patient — AI responds 24/7 🩺\n\n⚡ Save time: AI handles patient inquiries 24/7 📅",
+              "type": "string"
+            },
+            {
+              "id": "38fc309e-d186-4390-bd31-09de60572bea",
+              "name": "emai body 1",
+              "value": "<h2 style=\"font-size:22px; margin:0; color:#111827;\"> Hello Doctor 🩺, </h2><br>   <p style=\"font-size:15px; line-height:1.5; color:#1d4ed8;\"> If your clinic is not answering calls, messages, or website visitors  <strong>24/7</strong>, you are <strong>losing patients every day</strong> — especially while you sleep 😴. </p>  <hr>  <p style=\"font-size:16px; line-height:1.5; color:#111827;\"> I build <strong>AI Chatbots & AI Booking Assistants</strong> for You that: </p>  <ul style=\"font-size:16px; line-height:1.7; color:#111827;\">   <li>🤖 Answer patients <strong>24/7</strong></li>   <li>📅 Book appointments automatically</li>   <li>📞 Respond to missed calls</li>   <li>🗂️ Collect patient data even when you are sleeping</li>  </ul>  <p style=\"font-size:17px; line-height:1.4; color:green;\"> Your competitors are already using AI to capture these patients. </p>  <hr>  <p style=\"font-size:12px; line-height:1; color:red;\"> Would you like see a demo? reply  <strong>“YES”</strong> or <strong>“No</strong> </p>  <p style=\"font-size:15px; color:#111827;\"> Best regards,<br> <strong>Parvez Ahmed</strong><br> <span style=\"color:#2563eb;\">AI Automation Specialist</span> </p>",
+              "type": "string"
+            },
+            {
+              "id": "2756b99f-e8f6-49be-b5c3-310448d9b1db",
+              "name": "email body 2",
+              "value": "<h2 style=\"font-size:22px; margin:0; color:#111827;\">\nHello Doctor 🩺,\n</h2><br>\n\n<p style=\"font-size:15px; line-height:1.5; color:#1d4ed8;\">\nWhen your clinic doesn’t respond to calls, messages, or website visitors \n<strong>24/7</strong>, potential patients don’t wait — \nyou <strong>lose them daily</strong>, especially after hours 😴.\n</p>\n\n<hr>\n\n<p style=\"font-size:16px; line-height:1.5; color:#111827;\">\nI create <strong>AI Chatbots & AI Booking Assistants</strong> designed to:\n</p>\n\n<ul style=\"font-size:16px; line-height:1.7; color:#111827;\">\n  <li>🤖 Respond to patients <strong>24/7</strong></li>\n  <li>📅 Schedule appointments automatically</li>\n  <li>📞 Handle missed calls instantly</li>\n  <li>🗂️ Capture patient details even while you sleep</li>\n</ul>\n\n<p style=\"font-size:17px; line-height:1.4; color:green;\">\nOther clinics are already using AI to secure these patients.\n</p>\n\n<hr>\n\n<p style=\"font-size:12px; line-height:1; color:red;\">\nWould you like to see a quick demo? Reply <strong>“YES”</strong> or <strong>“NO”</strong>\n</p>\n\n<p style=\"font-size:15px; color:#111827;\">\nBest regards,<br>\n<strong>Parvez Ahmed</strong><br>\n<span style=\"color:#2563eb;\">AI Automation Specialist</span>\n</p>\n",
+              "type": "string"
+            },
+            {
+              "id": "d2aecb3f-0ff8-43ed-9bd5-dbcec1841cdb",
+              "name": "email body 4",
+              "value": "<h2 style=\"font-size:22px; margin:0; color:#111827;\"> Hello Doctor 🩺, </h2><br>  <p style=\"font-size:15px; line-height:1.5; color:#1d4ed8;\"> Every unanswered call, message, or website visit outside office hours  <strong>24/7</strong> means missed opportunities —  and <strong>fewer new patients</strong> for your clinic 😴. </p>  <hr>  <p style=\"font-size:16px; line-height:1.5; color:#111827;\"> I provide <strong>AI Chatbots & AI Booking Assistants</strong> that help you: </p>  <ul style=\"font-size:16px; line-height:1.7; color:#111827;\">   <li>🤖 Engage patients <strong>24/7</strong></li>   <li>📅 Automate appointment booking</li>   <li>📞 Respond to missed calls instantly</li>   <li>🗂️ Collect patient details without manual effort</li> </ul>  <p style=\"font-size:17px; line-height:1.4; color:green;\"> Clinics using AI are already gaining an advantage over others. </p>  <hr>  <p style=\"font-size:12px; line-height:1; color:red;\"> Want a short demo? Reply with <strong>“YES”</strong> or <strong>“NO”</strong> </p>  <p style=\"font-size:15px; color:#111827;\"> Best regards,<br> <strong>Parvez Ahmed</strong><br> <span style=\"color:#2563eb;\">AI Automation Specialist</span> </p>",
+              "type": "string"
+            },
+            {
+              "id": "02f8bf6f-4638-4d05-9ecb-06147cdcaa1e",
+              "name": "email body 3 ",
+              "value": "<h2 style=\"font-size:22px; margin:0; color:#111827;\"> Hello Doctor 🩺, </h2><br>  <p style=\"font-size:15px; line-height:1.5; color:#1d4ed8;\"> If patients contact your clinic and don’t get an answer  <strong>24/7</strong>, they move on fast —  that means <strong>lost appointments every single day</strong>, even at night 😴. </p>  <hr>  <p style=\"font-size:16px; line-height:1.5; color:#111827;\"> I help doctors with <strong>AI Chatbots & AI Booking Assistants</strong> that: </p>  <ul style=\"font-size:16px; line-height:1.7; color:#111827;\">   <li>🤖 Answer patient queries <strong>24/7</strong></li>   <li>📅 Auto-book appointments</li>   <li>📞 Follow up on missed calls</li>   <li>🗂️ Save patient information for later contact</li> </ul>  <p style=\"font-size:17px; line-height:1.4; color:green;\"> Many of your competitors are already benefiting from this AI setup. </p>  <hr>  <p style=\"font-size:12px; line-height:1; color:red;\"> Interested in a demo? Simply reply <strong>“YES”</strong> or <strong>“NO”</strong> </p>  <p style=\"font-size:15px; color:#111827;\"> Best regards,<br> <strong>Parvez Ahmed</strong><br> <span style=\"color:#2563eb;\">AI Automation Specialist</span> </p>",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        0
+      ],
+      "id": "3d9831ba-8ebd-4c9f-b714-f9d323321530",
+      "name": "email formate doctr"
+    },
+    {
+      "parameters": {
+        "jsCode": "// get current item\nconst item = $input.first();\n\n// run index (0,1,2,3...)\nconst index = $runIndex;\n\n// dummy subject templates\nconst subjects = [\n  \"Grow your business with AI and save time ⏱️. \",\n  \"Use AI to grow your business and save time.📈\",\n  \"Save time and grow your business using AI ⏳\"\n];\n\n// dummy body templates\nconst bodies = [\n`<p style=\"font-size:15px; line-height:1.5; color:#1d4ed8;\">\nIf your do not answering calls, messages, or website visitors \n<strong>24/7</strong>, you are <strong>losing clients every day</strong> —\nespecially while you sleep 😴.</p>\n<hr>\n<p style=\"font-size:16px; line-height:1.5; color:#111827;\">\nI build <strong>AI Chatbots & AI Booking Assistants</strong> for You that:\n</p>\n<ul style=\"font-size:16px; line-height:1.5; color:#111827;\">\n  <li>🤖 Answer clients <strong>24/7</strong></li>\n  <li>📅 Book appointments automatically</li>\n  <li>📞 Respond to missed calls</li>\n  <li>🗂️ Collect client data even when you are sleeping</li>\n </ul>\n<p style=\"font-size:17px; line-height:1.5; color:green;\">\nYour competitors are already using AI to capture these clients.\n</p>\n<hr>\n<p style=\"font-size:12px; line-height:1; color:red;\">\nWould you like see a demo? reply  <strong>“YES”</strong> or <strong>“No</strong>\n</p>\n<p style=\"font-size:15px; color:#111827;\">\nBest regards,<br>\n<strong>Parvez Ahmed</strong><br>\n<span style=\"color:#2563eb;\">AI Automation Specialist</span>\n</p>`,\n`<p style=\"font-size:15px; line-height:1.5; color:#1d4ed8;\">\nWhen you don't respond to calls, messages, or website visitors \n<strong>24/7</strong>, potential clients don’t wait — \nyou <strong>lose them daily</strong>, especially after hours 😴.\n</p>\n<hr>\n<p style=\"font-size:16px; line-height:1.5; color:#111827;\">\nI create <strong>AI Chatbots & AI Booking Assistants</strong> designed to:\n</p>\n<ul style=\"font-size:16px; line-height:1.5; color:#111827;\">\n  <li>🤖 Respond to clients <strong>24/7</strong></li>\n  <li>📅 Schedule appointments automatically</li>\n  <li>📞 Handle missed calls instantly</li>\n  <li>🗂️ Capture client details even while you sleep</li>\n</ul>\n<p style=\"font-size:17px; line-height:1.5; color:green;\">\nOther clinics are already using AI to secure these clients.\n</p>\n<hr>\n<p style=\"font-size:12px; line-height:1; color:red;\">\nWould you like to see a quick demo? Reply <strong>“YES”</strong> or <strong>“NO”</strong>\n</p>\n<p style=\"font-size:15px; color:#111827;\">\nBest regards,<br>\n<strong>Parvez Ahmed</strong><br>\n<span style=\"color:#2563eb;\">AI Automation Specialist</span>\n</p>`,\n`<p style=\"font-size:15px; line-height:1.5; color:#1d4ed8;\">\nIf clients contact to you and don’t get an answer \n<strong>24/7</strong>, they move on fast — \nthat means <strong>lost appointments every single day</strong>, even at night 😴.\n</p>\n<hr>\n<p style=\"font-size:16px; line-height:1.5; color:#111827;\">\nI help doctors with <strong>AI Chatbots & AI Booking Assistants</strong> that:\n</p>\n<ul style=\"font-size:16px; line-height:1.5; color:#111827;\">\n  <li>🤖 Answer client queries <strong>24/7</strong></li>\n  <li>📅 Auto-book appointments</li>\n  <li>📞 Follow up on missed calls</li>\n  <li>🗂️ Save client information for later contact</li>\n</ul>\n<p style=\"font-size:17px; line-height:1.5; color:green;\">\nMany of your competitors are already benefiting from this AI setup.\n</p>\n<hr>\n<p style=\"font-size:12px; line-height:1; color:red;\">\nInterested in a demo? Simply reply <strong>“YES”</strong> or <strong>“NO”</strong>\n</p>\n<p style=\"font-size:15px; color:#111827;\">\nBest regards,<br>\n<strong>Parvez Ahmed</strong><br>\n<span style=\"color:#2563eb;\">AI Automation Specialist</span>\n</p>`  \n];\n\n// loop logic (1 → 2 → 3 → repeat)\nconst i = index % 3;\n\n// add fields to item JSON\nitem.json.myNewField = 1;\nitem.json.subject_line = subjects[i];\nitem.json.email_body = bodies[i];\n\n// return item\nreturn item;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        704,
+        160
+      ],
+      "id": "cd4fb4d4-bc19-446d-a469-7daac6c87db9",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1kOR3x9G87r5WT-j9_sIUyxFaqsfWDBMS69mAhD-uQnI",
+          "mode": "list",
+          "cachedResultName": "Output",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kOR3x9G87r5WT-j9_sIUyxFaqsfWDBMS69mAhD-uQnI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kOR3x9G87r5WT-j9_sIUyxFaqsfWDBMS69mAhD-uQnI/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "e10c19ff-22d2-476c-99e2-bcc85fbc6e4a",
+      "name": "Sheets 1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        288,
+        144
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "UaL6fOHsO6dcikyn",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": "={{ Math.floor(Math.random() * (400 - 340 + 1)) + 340 }}",
+        "unit": "seconds"
+      },
+      "id": "b7eeef2b-50bf-43ad-af9e-8193f4da92e9",
+      "name": "Random Wait 90–120 Seconds",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        128
+      ],
+      "webhookId": "9928b78f-c2c4-49d4-9bd6-86000e86f1a5"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Sheets 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split In Batches": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Random Wait 90–120 Seconds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sheets 1": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Random Wait 90–120 Seconds": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "24927892-13fa-41b4-a367-91bf2922f16a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e8ecdb251685df665f12c8cc21aa787bdff3540c009624ce86c5804fb2436261"
+  },
+  "id": "mizw0c_Cpd8EnMo_aYXsT",
+  "tags": []
+}

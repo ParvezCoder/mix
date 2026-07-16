@@ -1,0 +1,357 @@
+{
+  "name": "email extractor from given URLs",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "bccca6cf-5179-4529-b57c-848ec283efbf",
+      "name": "Start",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -672,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1J8okDxY_yRnVmza0yuP0B6mD1i_ipxkNTEsh6hFQXsM",
+          "mode": "list",
+          "cachedResultName": "all_url",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1J8okDxY_yRnVmza0yuP0B6mD1i_ipxkNTEsh6hFQXsM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1J8okDxY_yRnVmza0yuP0B6mD1i_ipxkNTEsh6hFQXsM/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "66dc1649-1a41-463b-a14e-89f8756d7955",
+      "name": "Get row(s) in sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -448,
+        80
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "TIdTwRBYkkSw59Du",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "ef20301b-65ad-471c-8174-780f9c3c43b4",
+      "name": "Split URLs",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.website }}",
+        "options": {
+          "redirect": {
+            "redirect": {
+              "followRedirects": true,
+              "maxRedirects": 100
+            }
+          }
+        }
+      },
+      "id": "5f7878f8-94c9-41d8-9e55-2398c9169913",
+      "name": "Fetch HTML",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        0,
+        0
+      ],
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get HTML and sheet data\nconst html = $json[\"body\"] || $json[\"data\"] || \"\";\nconst url = $json[\"website\"] || \"\";\nconst name = $json[\"name\"] || \"\";\nconst number = $json[\"number\"] || \"\";\n\n// Extract main domain\nconst domainMatch = url.match(/https?:\\/\\/(?:www\\.)?([^\\/]+)/);\nconst fullDomain = domainMatch ? domainMatch[1].toLowerCase() : \"\";\nconst domainParts = fullDomain.split(\".\");\nconst mainDomain = domainParts.slice(-2).join(\".\");\n\n// ======== REGEX FOR EMAIL ========\nconst emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}/g;\nconst matches = html.match(emailRegex) || [];\n\n// Filter same-domain emails only\nconst filteredEmails = matches.filter(email => {\n  const emailDomain = email.split(\"@\")[1].toLowerCase();\n  return emailDomain.endsWith(mainDomain);\n});\n\n// Remove duplicates\nconst uniqueEmails = [...new Set(filteredEmails)];\n\n// ======== OUTPUT ========\n\n// If no email found\nif (uniqueEmails.length === 0) {\n  return [{\n    json: {\n      name,\n      number,\n      email: \"No email found\",\n      website: url\n    }\n  }];\n}\n\n// Otherwise map all emails (in case multiple found)\nreturn uniqueEmails.map(email => ({\n  json: {\n    name,\n    number,\n    email,\n    website: url\n  }\n}));\n"
+      },
+      "id": "89cbc68e-2bdc-4ec8-a9fc-72fa6de0dea5",
+      "name": "Extract Emails",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1kOR3x9G87r5WT-j9_sIUyxFaqsfWDBMS69mAhD-uQnI",
+          "mode": "list",
+          "cachedResultName": "testing"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "number",
+              "displayName": "number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "website",
+              "displayName": "website",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "c83875b5-c2dd-43cb-abda-da9a9045d9ef",
+      "name": "Append row in sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        656,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "TIdTwRBYkkSw59Du",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        880,
+        80
+      ],
+      "id": "877bd1e3-e1b4-49fe-9969-12df7ee9d282",
+      "name": "Wait",
+      "webhookId": "f4465b55-bd4e-4ceb-91f1-6e754a80cea9"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "968f0699-fe65-4cbf-8a65-5fbe16c213b1",
+              "name": "name",
+              "value": "={{ $('Split URLs').item.json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "9e20daeb-d700-4262-bdce-2912a178869a",
+              "name": "number",
+              "value": "={{ $('Split URLs').item.json.number }}",
+              "type": "string"
+            },
+            {
+              "id": "f80eef9c-d00b-4eae-b59f-17345a0a868d",
+              "name": "website",
+              "value": "={{ $('Split URLs').item.json.website }}",
+              "type": "string"
+            },
+            {
+              "id": "42fb0895-4289-4d09-a27b-b35545b88868",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        432,
+        0
+      ],
+      "id": "6b2900ef-9e70-4e5c-8ef5-ca09e2077f56",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "08bd63fb-7ae2-432e-8856-6d000c7ce52a",
+              "name": "",
+              "value": "main ap ko ek file de raha hon\nor ap us ko number formate change krna\nyani\n\nye number he +1 206-429-8822  \nafter change should be like this (206) 429-8822\n\nor url ko bhi set krna he\nmatlab .com ya .net ya .or k bad jo kuch bhi likha ho use mitaa do\nyani\nhttps://dentalspecialtiesnw.com/?utm_campaign=gmb\nresult should be like this https://dentalspecialtiesnw.com",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        176,
+        -160
+      ],
+      "id": "59d19920-33fd-45b6-9b6e-4b052b7082a4",
+      "name": "prompt for data settingi"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Split URLs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split URLs": {
+      "main": [
+        [
+          {
+            "node": "Fetch HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch HTML": {
+      "main": [
+        [
+          {
+            "node": "Extract Emails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Emails": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Split URLs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "c9939798-a41b-4023-ba09-3cf778587feb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e8ecdb251685df665f12c8cc21aa787bdff3540c009624ce86c5804fb2436261"
+  },
+  "id": "GkYIWY0_9Tw-d13ZxZkyb",
+  "tags": []
+}
