@@ -1,0 +1,7 @@
+twilio recover account password = H1CTGHWQCEZ4CKV6DY4DTYTH
+
+from Paul Smith Email:
+
+SID = SKc5863f47d52f9459f4f85c2af6409c41
+
+Client Secret = JPzQwC3XDcLjShjWmsGJXTCFOJPAxfpr
