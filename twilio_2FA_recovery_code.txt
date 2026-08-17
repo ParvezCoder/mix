@@ -1,3 +1,4 @@
+resolve issued
 twilio recover account password = H1CTGHWQCEZ4CKV6DY4DTYTH
 
 from Paul Smith Email:
