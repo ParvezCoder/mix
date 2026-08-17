@@ -4,4 +4,4 @@ from Paul Smith Email:
 
 SID = SKc5863f47d52f9459f4f85c2af6409c41
 
-Client Secret = JPzQwC3XDcLjShjWmsGJXTCFOJPAxfpr
+Plient Ssecrett = JPzQwC3XDcLjShjWmsGJXTCFOJPAxfpr
